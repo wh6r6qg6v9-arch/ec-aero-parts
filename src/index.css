@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 47% 11%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 210 33% 97%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 33% 97%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 217 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 350 83% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 28% 92%;
+    --input: 215 28% 92%;
+    --ring: 217 100% 50%;
+    --radius: 0.5rem;
+    --font-heading: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --aero-grey: 210 33% 97%;
+    --cockpit: 222 47% 11%;
+    --avionics: 217 100% 50%;
+    --signal: 350 83% 50%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  ::selection {
+    background-color: hsl(var(--avionics));
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .font-mono-tech {
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Corner-frame technical border */
+  .corner-frame {
+    position: relative;
+  }
+  .corner-frame::before,
+  .corner-frame::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: hsl(var(--avionics));
+    pointer-events: none;
+  }
+  .corner-frame::before {
+    top: 10px;
+    left: 10px;
+    border-top: 1.5px solid;
+    border-left: 1.5px solid;
+  }
+  .corner-frame::after {
+    bottom: 10px;
+    right: 10px;
+    border-bottom: 1.5px solid;
+    border-right: 1.5px solid;
+  }
+
+  .grid-overlay {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .radar-pulse {
+    position: relative;
+    overflow: hidden;
+  }
+  .radar-pulse::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, hsl(var(--avionics) / 0.18), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .group:hover .radar-pulse::after {
+    opacity: 1;
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--avionics)), transparent);
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .group:hover .scan-line {
+    opacity: 1;
+    animation: scan 1.6s ease-in-out infinite;
+  }
+
+  @keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+  .blink {
+    animation: blink 1.6s ease-in-out infinite;
+  }
+
+  .logo-grayscale {
+    filter: grayscale(1);
+    opacity: 0.55;
+    transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+  }
+  .logo-grayscale:hover {
+    filter: grayscale(0);
+    opacity: 1;
+    transform: scale(1.04);
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 34s linear infinite;
+  }
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+  }
+
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .animate-floaty {
+    animation: floaty 7s ease-in-out infinite;
+  }
+
+  @keyframes drift {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(18px, -10px); }
+    100% { transform: translate(0, 0); }
+  }
+  .animate-drift {
+    animation: drift 9s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
